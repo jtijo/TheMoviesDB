@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.example.themoviesdb'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.themoviesdb"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+    packagingOptions {
+        exclude("META-INF/versions/9/previous-compilation-data.bin")
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.6.4"
+
+    // mocking test frameworks
+    testImplementation "org.mockito:mockito-core:4.0.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+    testImplementation "io.mockk:mockk:1.12.7"
+
+    implementation "com.google.dagger:hilt-android:${hilt_version}"
+    kapt 'com.google.dagger:hilt-compiler:2.45'
+    // For instrumentation tests
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:${hilt_version}"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:${hilt_version}"
+    // For local unit tests
+    testImplementation "com.google.dagger:hilt-android-testing:${hilt_version}"
+    kaptTest "com.google.dagger:hilt-compiler:${hilt_version}"
+
+    //Clean Modules
+    implementation project(":presentation")
+    implementation project(":data")
+    implementation project(":domain")
+}
